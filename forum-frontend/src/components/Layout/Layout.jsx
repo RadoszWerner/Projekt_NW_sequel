@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, List, ListItem, Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { getRoleFromToken } from "../../auth";
 
 const useStyles = makeStyles({
   root: {
@@ -20,10 +21,17 @@ const useStyles = makeStyles({
     overflowY: "auto",
     padding: "20px",
   },
+  modLogsContainer: {
+    padding: "8px 16px",
+  },
+  modLogButton: {
+    marginBottom: "8px",
+  },
 });
 
 const Layout = ({ children }) => {
   const classes = useStyles();
+  const userRole = getRoleFromToken();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -48,20 +56,39 @@ const Layout = ({ children }) => {
               My Posts
             </Typography>
           </ListItem>
-          <ListItem button>
-            <Typography
-              onClick={() => (window.location.href = "/mod-logs-comments")}
-            >
-              Mod Logs - Comments
-            </Typography>
-          </ListItem>
-          <ListItem button>
-            <Typography
-              onClick={() => (window.location.href = "/mod-logs-posts")}
-            >
-              Mod Logs - Posts
-            </Typography>
-          </ListItem>
+          {userRole === "moderator" && (
+            <ListItem className={classes.modLogsContainer}>
+              <Box>
+                <Typography variant="subtitle1" sx={{ marginBottom: "8px" }}>
+                  Moderator Logs
+                </Typography>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  className={classes.modLogButton}
+                  onClick={() => (window.location.href = "/mod-logs-comments")}
+                >
+                  Mod Logs - Comments
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  className={classes.modLogButton}
+                  onClick={() => (window.location.href = "/mod-logs-posts")}
+                >
+                  Mod Logs - Posts
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  className={classes.modLogButton}
+                  onClick={() => (window.location.href = "/mod-logs-actions")}
+                >
+                  Mod Logs - Actions
+                </Button>
+              </Box>
+            </ListItem>
+          )}
         </List>
         <Box>
           <Button

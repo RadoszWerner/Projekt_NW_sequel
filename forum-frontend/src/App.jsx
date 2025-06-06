@@ -9,6 +9,7 @@ import UserPostPage from "./components/Pages/UserPostPage";
 import PostDetails from "./components/Posts/PostDetails";
 import DeletedCommentsPage from "./components/Pages/DeletedCommentsPage";
 import DeletedPostsPage from "./components/Pages/DeletedPostsPage";
+import ModLogsPage from "./components/Pages/ModLogPage";
 
 const App = () => {
   return (
@@ -55,6 +56,16 @@ const App = () => {
             <PrivateRoute>
               <Layout>
                 <DeletedPostsPage />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/mod-logs-actions"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <ModLogsPage />
               </Layout>
             </PrivateRoute>
           }
