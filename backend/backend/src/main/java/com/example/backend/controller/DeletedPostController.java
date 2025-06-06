@@ -19,6 +19,7 @@ public class DeletedPostController {
 
     @GetMapping("/all")
     public ResponseEntity<List<DeletedPostDTO>> getDeletedPosts() {
+        List<DeletedPostDTO> elo = deletedPostService.getAllDeletedPosts();
         return ResponseEntity.ok(deletedPostService.getAllDeletedPosts());
     }
     @PutMapping("/restore")

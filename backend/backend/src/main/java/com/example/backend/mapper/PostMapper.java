@@ -15,6 +15,8 @@ public class PostMapper {
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());
         postDTO.setTitle(post.getTitle());
+        postDTO.setToxic(post.getIsToxic());
+        postDTO.setDeleted(post.getIsDeleted());
         postDTO.setContent(post.getContent());
         postDTO.setCreatedAt(post.getCreatedAt().toString());
         postDTO.setUpdatedAt(post.getUpdatedAt() != null ? post.getUpdatedAt().toString() : null);

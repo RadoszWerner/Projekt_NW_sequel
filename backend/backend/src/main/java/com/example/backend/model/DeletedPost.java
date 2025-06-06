@@ -87,7 +87,6 @@ public class DeletedPost {
     }
 
 
-    // Gettery i settery ⬇
     public Long getId() {
         return id;
     }

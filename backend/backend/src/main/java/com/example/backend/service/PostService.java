@@ -119,11 +119,15 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("Post not found with ID: " + id));
     }
 
-    public List<Post> getPostsByUserId(Long userId) {
+    public List<PostDTO> getPostsByUserId(Long userId) {
         if (userId == null) {
             throw new IllegalArgumentException("User ID cannot be null");
         }
-        return postRepository.findAllByUserId(userId);
+        List<Post> posts = postRepository.findAllByUserId(userId);
+
+        return posts.stream()
+                .map(PostMapper::mapToPostDTO) // Use the mapper here
+                .collect(Collectors.toList());
     }
 
     public List<PostDTO> getAllPosts() {

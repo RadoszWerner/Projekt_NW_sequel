@@ -9,6 +9,8 @@ public class PostDTO {
     private String content;
     private String createdAt;
     private String updatedAt;
+    private boolean isToxic;
+    private boolean isDeleted;
     private UserDTO user;
 
     // Getters and setters
