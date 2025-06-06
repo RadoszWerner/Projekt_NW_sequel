@@ -9,21 +9,24 @@ const DeletedCommentsPage = () => {
 
   useEffect(() => {
     if (userRole !== "moderator") {
-      console.log(userRole);
       alert("Access denied. Only moderators can view this page.");
       return;
     }
 
     const fetchDeletedComments = async () => {
       try {
-        const response = await fetch("http://localhost:8080/comments/deleted", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await fetch(
+          "http://localhost:8080/deletedcomments/all",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
+          console.log("Komentarze z backendu:", data);
           setDeletedComments(data);
         } else {
           console.error("Failed to fetch deleted comments");
@@ -51,6 +54,7 @@ const DeletedCommentsPage = () => {
       <Typography variant="h4" gutterBottom>
         Deleted Comments
       </Typography>
+
       {deletedComments.length === 0 ? (
         <Typography variant="body1">No deleted comments found.</Typography>
       ) : (

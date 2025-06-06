@@ -22,6 +22,10 @@ public class Post {
 
     private LocalDateTime updatedAt;
 
+    private boolean deleted;
+
+    private boolean toxic;
+
     // Gettery i Settery
 
     public Long getId() {
@@ -71,4 +75,20 @@ public class Post {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+    public boolean getIsDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean getIsToxic() {
+        return toxic;
+    }
+
+    public void setToxic(boolean toxic) {
+        this.toxic = toxic;
+    }
+
 }

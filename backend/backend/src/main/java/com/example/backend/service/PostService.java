@@ -2,13 +2,16 @@ package com.example.backend.service;
 
 import com.example.backend.dto.PostDTO;
 import com.example.backend.mapper.PostMapper;
+import com.example.backend.model.DeletedPost;
 import com.example.backend.model.Post;
 import com.example.backend.model.User;
+import com.example.backend.repository.DeletedPostRepository;
 import com.example.backend.repository.PostRepository;
 import com.example.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,10 +20,14 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final ToxicityCheckService toxicityCheckService;
+    private final DeletedPostRepository deletedPostRepository;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, ToxicityCheckService toxicityCheckService, DeletedPostRepository deletedPostRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.toxicityCheckService = toxicityCheckService;
+        this.deletedPostRepository = deletedPostRepository;
     }
 
     public Post createPost(String username, String title, String content) {
@@ -34,7 +41,44 @@ public class PostService {
         post.setTitle(title);
         post.setContent(content);
         post.setCreatedAt(LocalDateTime.now());
+        post.setDeleted(false);
+        post.setToxic(false);
 
+        List<Boolean> scoresContent = toxicityCheckService.getToxicityScores(content);
+        List<Boolean> scoresTitle = toxicityCheckService.getToxicityScores(title);
+        boolean isTitleToxic = scoresTitle.contains(true);
+        boolean isContentToxic = scoresContent.contains(true);
+        List<Boolean> scores = new ArrayList<>();
+        for (int i = 0; i < scoresContent.size(); i++) {
+            scores.add(scoresContent.get(i) || scoresTitle.get(i));
+        }
+        if (isTitleToxic || isContentToxic) {
+            post.setToxic(true);
+            post.setDeleted(true);
+
+            // Save the toxic post
+            Post savedPost = postRepository.save(post);
+
+            // Save information about deletion
+            DeletedPost deletedPost = new DeletedPost();
+            deletedPost.setPost(savedPost);
+            deletedPost.setModeratedBy(user);  // lub inny użytkownik jeśli masz moderację
+            deletedPost.setDeletedAt(LocalDateTime.now());
+
+            String reason = "Post marked as toxic: ";
+            if (isTitleToxic) reason += "Title ";
+            if (isContentToxic) reason += "Content";
+            deletedPost.setReason(reason.trim());
+            deletedPost.setToxic(scores.get(0));
+            deletedPost.setSevereToxic(scores.get(1));
+            deletedPost.setObscene(scores.get(2));
+            deletedPost.setThreat(scores.get(3));
+            deletedPost.setInsult(scores.get(4));
+            deletedPost.setIdentityHate(scores.get(5));
+            deletedPostRepository.save(deletedPost);
+
+            return savedPost;
+        }
         return postRepository.save(post);
     }
 

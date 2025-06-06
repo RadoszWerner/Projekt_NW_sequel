@@ -1,32 +1,28 @@
 package com.example.backend.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "deleted_comments")
-public class DeletedComment {
+public class DeletedPost {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "comment_id", nullable = false)
-    private Comment comment;
+    @OneToOne
+    private Post post;
+
+    public void setId(Long id) {this.id = id;}
 
     @ManyToOne
-    @JoinColumn(name = "moderated_by", nullable = false)
     private User moderatedBy;
 
-    @Column(nullable = false)
     private LocalDateTime deletedAt;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
     private String reason;
     @Column(nullable = false)
     private boolean isToxic;
-
     @Column(nullable = false)
     private boolean isSevereToxic;
 
@@ -90,20 +86,18 @@ public class DeletedComment {
         isIdentityHate = identityHate;
     }
 
+
+    // Gettery i settery ⬇
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Post getPost() {
+        return post;
     }
 
-    public Comment getComment() {
-        return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public User getModeratedBy() {

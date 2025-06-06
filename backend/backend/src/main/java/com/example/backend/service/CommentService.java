@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static java.lang.Boolean.TRUE;
+
 @Service
 public class CommentService {
 
@@ -48,8 +50,9 @@ public class CommentService {
         comment.setDeleted(false);
         comment.setToxic(false);
 
-        // Check if the content is toxic
-        if (toxicityCheckService.isToxic(content)) {
+        List<Boolean> scores = toxicityCheckService.getToxicityScores(content);
+        boolean isToxic = scores.contains(true);
+        if (isToxic) {
             // Set flags for the comment
             comment.setToxic(true);
             comment.setDeleted(true);
@@ -63,12 +66,18 @@ public class CommentService {
             deletedComment.setModeratedBy(user);
             deletedComment.setDeletedAt(LocalDateTime.now());
             deletedComment.setReason("Comment marked as toxic");
+            deletedComment.setToxic(scores.get(0));
+            deletedComment.setSevereToxic(scores.get(1));
+            deletedComment.setObscene(scores.get(2));
+            deletedComment.setThreat(scores.get(3));
+            deletedComment.setInsult(scores.get(4));
+            deletedComment.setIdentityHate(scores.get(5));
+
             deletedCommentRepository.save(deletedComment);
 
             return savedComment;
         }
 
-        // Save the comment if it's not toxic
         return commentRepository.save(comment);
     }
 

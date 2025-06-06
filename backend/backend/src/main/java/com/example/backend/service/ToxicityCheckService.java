@@ -55,4 +55,35 @@ public class ToxicityCheckService {
             throw new RuntimeException("Failed to check toxicity: " + e.getMessage());
         }
     }
+
+    public List<Boolean> getToxicityScores(String content) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String requestBody = "{\"comment\": \"" + content + "\"}";
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+
+        try {
+            ResponseEntity<Map> response = restTemplate.postForEntity(apiUrl, request, Map.class);
+
+            Map<String, Object> responseBody = response.getBody();
+            if (!responseBody.containsKey("toxicity_score")) {
+                throw new RuntimeException("Unexpected response format: " + responseBody);
+            }
+
+            List<?> rawScores = (List<?>) responseBody.get("toxicity_score");
+            return rawScores.stream()
+                    .map(val -> {
+                        int intVal = Integer.parseInt(val.toString());
+                        return intVal == 1;
+                    })
+                    .toList();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get toxicity scores: " + e.getMessage());
+        }
+    }
+
+
 }
+
