@@ -32,6 +32,7 @@ backend/backend/build/
 backend/backend/.vscode/
 
 flask-server/tests/__pycache__
+flask-server/app/__pycache__
 flask-server/venv123
 flask-server/.pytest_cache
 
@@ -59,4 +60,3 @@ forum-frontend/yarn-debug.log*
 forum-frontend/yarn-error.log*
 
 .vscode/
-flask-server\app\__pycache__
