@@ -1,0 +1,62 @@
+backend/backend/target/
+!backend/backend/.mvn/wrapper/maven-wrapper.jar
+!backend/backend/src/main//target/
+!backend/backend/src/test//target/
+
+# STS
+backend/backend/.apt_generated
+backend/backend/.classpath
+backend/backend/.factorypath
+backend/backend/.project
+backend/backend/.settings
+backend/backend/.springBeans
+backend/backend/.sts4-cache
+
+# IntelliJ IDEA
+backend/backend/.idea
+backend/backend/*.iws
+backend/backend/*.iml
+backend/backend/*.ipr
+
+# NetBeans
+backend/backend/nbproject/private/
+backend/backend/nbbuild/
+backend/backend/dist/
+backend/backend/nbdist/
+backend/backend/.nb-gradle/
+backend/backend/build/
+!backend/backend/src/main//build/
+!backend/backend/src/test//build/
+
+# VS Code
+backend/backend/.vscode/
+
+flask-server/tests/__pycache__
+flask-server/venv123
+flask-server/.pytest_cache
+
+# dependencies
+forum-frontend/node_modules
+forum-frontend/.pnp
+forum-frontend/.pnp.js
+
+# testing
+forum-frontend/coverage
+
+# production
+forum-frontend/build
+
+# misc
+forum-frontend/.DS_Store
+forum-frontend/.env.local
+forum-frontend/.env.development.local
+forum-frontend/.env.test.local
+forum-frontend/.env.production.local
+
+# logs
+forum-frontend/npm-debug.log*
+forum-frontend/yarn-debug.log*
+forum-frontend/yarn-error.log*
+
+.vscode/
+flask-server\app\__pycache__

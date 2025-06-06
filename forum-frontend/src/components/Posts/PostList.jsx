@@ -78,8 +78,8 @@ const PostList = ({ posts }) => {
       alert("An error occurred while creating the post.");
     }
   };
-
-  const paginatedPosts = posts.slice(
+  const filteredPosts = posts.filter((post) => !post.deleted);
+  const paginatedPosts = filteredPosts.slice(
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
   );
@@ -107,7 +107,7 @@ const PostList = ({ posts }) => {
 
       {/* Pagination */}
       <Pagination
-        count={Math.ceil(posts.length / postsPerPage)}
+        count={Math.ceil(filteredPosts.length / postsPerPage)}
         page={currentPage}
         onChange={handleChangePage}
         sx={{ marginTop: "20px", display: "flex", justifyContent: "center" }}

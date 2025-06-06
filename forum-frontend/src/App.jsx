@@ -8,6 +8,7 @@ import RegistrationPage from "./components/Pages/RegistrationPage";
 import UserPostPage from "./components/Pages/UserPostPage";
 import PostDetails from "./components/Posts/PostDetails";
 import DeletedCommentsPage from "./components/Pages/DeletedCommentsPage";
+import DeletedPostsPage from "./components/Pages/DeletedPostsPage";
 
 const App = () => {
   return (
@@ -39,11 +40,21 @@ const App = () => {
           }
         />
         <Route
-          path="/mod-logs"
+          path="/mod-logs-comments"
           element={
             <PrivateRoute>
               <Layout>
                 <DeletedCommentsPage />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/mod-logs-posts"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <DeletedPostsPage />
               </Layout>
             </PrivateRoute>
           }

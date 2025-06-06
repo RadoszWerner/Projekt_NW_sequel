@@ -87,7 +87,7 @@ const Comment = ({ comment }) => {
   };
 
   if (comment.deleted) {
-    return null; // Nie renderuj usuniętych komentarzy
+    return null;
   }
 
   return (

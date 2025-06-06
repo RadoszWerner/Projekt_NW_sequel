@@ -28,6 +28,8 @@ const HomePage = () => {
       .then((response) => response.json())
       .then((data) => {
         setPosts(data);
+        console.log(data);
+
         setLoading(false);
       })
       .catch((error) => {
