@@ -35,6 +35,7 @@ flask-server/tests/__pycache__
 flask-server/app/__pycache__
 flask-server/venv123
 flask-server/.pytest_cache
+flask-server/.idea
 
 # dependencies
 forum-frontend/node_modules
@@ -53,6 +54,7 @@ forum-frontend/.env.local
 forum-frontend/.env.development.local
 forum-frontend/.env.test.local
 forum-frontend/.env.production.local
+forum-frontend/.idea
 
 # logs
 forum-frontend/npm-debug.log*

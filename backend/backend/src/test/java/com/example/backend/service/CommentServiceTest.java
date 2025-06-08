@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -94,11 +95,12 @@ class CommentServiceTest {
         // Arrange
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
         when(postRepository.findById(1L)).thenReturn(Optional.of(post));
-        when(toxicityCheckService.isToxic("Toxic comment")).thenReturn(true);
+        when(toxicityCheckService.getToxicityScores("Toxic comment"))
+                .thenReturn(List.of(true, false, false, false, false, false));
         when(commentRepository.save(any(Comment.class))).thenAnswer(invocation -> {
             Comment savedComment = invocation.getArgument(0);
-            assertTrue(savedComment.getIsToxic()); // Verify that the toxic flag is set
-            assertTrue(savedComment.getIsDeleted()); // Verify that the deleted flag is set
+            assertTrue(savedComment.getIsToxic());
+            assertTrue(savedComment.getIsDeleted());
             return savedComment;
         });
 

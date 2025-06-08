@@ -83,7 +83,5 @@ public class ToxicityCheckService {
             throw new RuntimeException("Failed to get toxicity scores: " + e.getMessage());
         }
     }
-
-
 }
 
